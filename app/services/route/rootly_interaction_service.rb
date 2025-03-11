@@ -1,9 +1,10 @@
-# fill in with 'Interaction' details
+
 class RootlyInteractionRouteService
     def initialize(params)
         @params = params
     end
 
+    # Superfluous
     def verify_command
         if @command_content_raw.empty?
             raise "Empty command: please provide a non-empty command"

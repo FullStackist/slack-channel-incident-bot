@@ -1,0 +1,32 @@
+
+<div class="space-y-4">
+  <!-- Sorting Management -->
+  <div class="flex justify-between items-center">
+    <span class="text-lg font-semibold">Incidents</span>
+    
+    <%= form_with url: incidents_path, method: :get, local: true do %>
+      <div class="flex items-center space-x-2">
+        <label for="sort_by" class="text-sm">Sort by:</label>
+        <%= select_tag :sort_by, options_for_select([['Title', 'title'], ['Creator', 'creator'], ['Created At', 'created_at']], params[:sort_key]), class: "border p-2" %>
+
+        <label for="direction" class="text-sm">Direction:</label>
+        <%= select_tag :direction, options_for_select([['Ascending', 'asc'], ['Descending', 'desc']], params[:sort_direction]), class: "border p-2" %>
+
+        <%= submit_tag "Sort", class: "bg-blue-500 text-white p-2 rounded" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Dynamic Incident Loader -->
+  <div class="space-y-2">
+    <% @incidents.each do |incident| %>
+      <div class="p-4 bg-white shadow rounded-md">
+        <h3 class="font-bold text-lg"><%= incident.title %></h3>
+        <p class="text-gray-600"><%= incident.description %></p>
+        <p class="text-gray-400 text-sm"><%= incident.severity %></p>
+        <p class="text-gray-400 text-sm"><%= incident.creator %></p>
+        <p class="text-gray-400 text-sm"><%= time_ago_in_words(incident.created_at) %> ago</p>
+      </div>
+    <% end %>
+  </div>
+</div>

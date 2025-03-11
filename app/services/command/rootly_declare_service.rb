@@ -1,6 +1,8 @@
 require 'faraday'
 
 class RootlyDeclareService
+    include SharedServiceLogic
+
     def initialize(trigger_id, title)
         @slack_trigger_id = trigger_id
         @incident_title = title
@@ -10,8 +12,10 @@ class RootlyDeclareService
         incident_modal = Command::Rootly::IncidentModalView.new(@incident_title).render
         view_object = compose_view_object(incident_modal)
 
+        bearer_token = retrieve_slack_access_token
+
         response = Faraday.post('https://slack.com/api/views.open') do |req|
-            req.headers['Authorization'] = 'Bearer #{Rails.application.credentials.slack.api[:bearer_token]}'
+            req.headers['Authorization'] = 'Bearer #{bearer_token}'
             req.headers['Content-Type'] = "application/json"
             req.body = view_object.to_json
         end

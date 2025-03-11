@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_10_052907) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_11_014851) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -25,5 +25,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_052907) do
     t.string "status"
     t.string "creator"
     t.string "eid"
+  end
+
+  create_table "installations", force: :cascade do |t|
+    t.string "slack_workspace_id"
+    t.string "slack_access_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 end

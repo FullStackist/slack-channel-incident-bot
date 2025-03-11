@@ -58,8 +58,10 @@ class RootlyDeclareModalSubmitService
         channel_name = @interaction_data[:incident_title_section][:incident_title_input][:value] + "_incident"
         channel_object = { name: channel_name }
 
+        bearer_token = retrieve_slack_access_token
+
         response = Faraday.post('https://slack.com/api/conversations.create') do |req|
-            req.headers['Authorization'] = 'Bearer #{Rails.application.credentials.slack.api[:bearer_token]}'
+            req.headers['Authorization'] = 'Bearer #{bearer_token}'
             req.headers['Content-Type'] = "application/json"
             req.body = channel_object.to_json
         end

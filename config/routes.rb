@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+
+  get "installations/create", to: "installations#create"
+  get "installations/:id/success", to: "installations#success", as: "installation_success"
+
+  get "incident/list", to: "incident#list"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   namespace :command do
     
-    post "rootly", to: "rootly/handle_command"
+    post "rootly", to: "rootly#handle_command"
 
-    post "interaction", to: "rootly/handle_interaction"
+    post "interaction", to: "rootly#handle_interaction"
+
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
