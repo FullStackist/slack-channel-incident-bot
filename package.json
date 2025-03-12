@@ -5,7 +5,7 @@
     "build": "bun bun.config.js",
     "dev": "bun dev",
     "start": "bundle exec rails server",
-    "build:css": "npx tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css"
+    "build:css": "npx tailwindcss -i ./app/assets/tailwind/application.css -o ./app/assets/builds/application.css"
   },
   "dependencies": {
     "bun": "^1.1.0",
