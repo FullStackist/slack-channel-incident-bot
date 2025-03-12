@@ -29,7 +29,7 @@ class Command::Modal::IncidentModalView
             "block_id": "incident_title_section",
             "label": {
               "type": "plain_text",
-              "text": "*Confirm the incident title:*"
+              "text": "*Confirm the incident title:* (25 character limit)"
             },
             "element": {
               "type": "plain_text_input", # This is the input type for plain text
@@ -84,7 +84,7 @@ class Command::Modal::IncidentModalView
           "optional": false,
           "label": {
             "type": "plain_text",
-            "text": "Channel to send success message to"
+            "text": "*Channel to send success message to*"
           },
           "element": {
             "type": "conversations_select",
