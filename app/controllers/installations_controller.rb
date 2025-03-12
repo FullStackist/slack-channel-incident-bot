@@ -20,7 +20,7 @@ class InstallationsController < ApplicationController
 
         client_id = Rails.application.credentials.slack['client_id']
         client_secret = Rails.application.credentials.slack['client_secret']
-        redirect_uri = 'https://1742-134-231-45-64.ngrok-free.app/installations/create'
+        redirect_uri = "https://slack-channel-incident-bot.onrender.com/installations/create"
 
         token_url = "https://slack.com/api/oauth.v2.access"
         token_creation_response = Faraday.post(token_url, {
