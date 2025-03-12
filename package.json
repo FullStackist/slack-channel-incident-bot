@@ -4,9 +4,11 @@
   "scripts": {
     "build": "bun bun.config.js",
     "dev": "bun dev",
-    "start": "bundle exec rails server"
+    "start": "bundle exec rails server",
+    "build:css": "npx tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css"
   },
   "dependencies": {
-    "bun": "^1.1.0"
+    "bun": "^1.1.0",
+    "tailwindcss": "^4.0.13"
   }
 }
