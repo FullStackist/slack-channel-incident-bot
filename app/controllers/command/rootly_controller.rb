@@ -36,11 +36,10 @@ module Command
         render json: { text: 'Unauthorized request' }, status: :ok
       end
 
-      Rails.logger.info "SWI from Rootly Controller handle_interaction #{session[:slack_workspace_id]}"
       route_service = Route::RootlyInteractionRouteService.new(slack_interaction_params, session[:slack_workspace_id])
       begin
         result = route_service.call
-        #render json: { text: "#{result}"}, status: :ok # Acknowledgement response
+        render json: { text: "#{result}"}, status: :ok # Acknowledgement response
       rescue => e
         puts e
       end
@@ -69,15 +68,12 @@ module Command
     end
   
     def slack_interaction_params
-      #params.require(:payload)
       JSON.parse(params[:payload])
     end
   
     def set_command_session
-      Rails.logger.info params
       if params["payload"].present?
         session[:slack_workspace_id] = JSON.parse(params["payload"])["team"]["id"]
-        Rails.logger.info session[:slack_workspace_id]
       else
         session[:slack_workspace_id] = slack_command_params[:team_id]
       end

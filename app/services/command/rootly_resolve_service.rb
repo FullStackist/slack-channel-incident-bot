@@ -15,7 +15,6 @@ class Command::RootlyResolveService
     def verify_command
         # Check if there's an incident corresponding to the channel
         incident_exists = Incident.exists?(channel: @channel_id, workspace: @workspace)
-        Rails.logger.info incident_exists
         incident_exists
     end
 
@@ -36,15 +35,12 @@ class Command::RootlyResolveService
         incident = Incident.find_by(channel: @channel_id, workspace: @workspace)
         incident.update(status: 'resolved')
         incident_ref = incident[:id]
-        Rails.logger.info "update_with_status data: #{incident_ref}"
         incident_ref
     end
 
     def determine_resolution_time(incident_ref)
         incident = Incident.find(incident_ref)
-        Rails.logger.info incident
         raw_difference = Time.current - incident[:created_at]
-        Rails.logger.info raw_difference
         hour_difference = raw_difference / 1.hour
         difference_text = "#{hour_difference} hours"
     end

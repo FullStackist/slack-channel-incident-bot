@@ -24,7 +24,7 @@ Once the app is installed, you can start managing incidents directly within Slac
    
 2. **Resolve an Incident**
    - Type `/rootly resolve` in your `<your-incident-title>_incident` channel to mark this incident as `resolved`.
-    - **The time it took for the team to resolve the incident will be written to the channel**
+    - **The time it took (in hours) for the team to resolve the incident will be written to the channel**
     - **Another incident taken care of!**
 
 3. **View all Incidents**
@@ -33,11 +33,11 @@ Once the app is installed, you can start managing incidents directly within Slac
      
 ---
 
-## Technical Highlights
+## Technical Highlights 💻
 
 - ✅ Builtin OAuth for Slack
 - ✅ Tailwind CSS & View Components
 - ✅ Extensible backend, leaning heavily into the use of services `/services`
 - ✅ Highly-readable code resulting from a DRY, facade-based approach for most services
 
-**🚀 Thank you for your consideration! I look forward to the next steps 🚀**
+**🚀 Thank you for you considering my application (pun intended)! I look forward to the next steps 🚀**

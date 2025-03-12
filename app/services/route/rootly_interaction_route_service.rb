@@ -5,19 +5,6 @@ class Route::RootlyInteractionRouteService
         @slack_workspace_id = swi
     end
 
-    # Superfluous
-    #def verify_command
-    #    if @command_content_raw.empty?
-    #        raise "Empty command: please provide a non-empty command"
-    #    elsif @command_itself.empty?
-    #        raise "Main command ommitted: please provide a main command"
-    #    else
-    #        return true
-    #    end
-
-    #    false
-    #end
-
     def route_and_execute
         case @params["type"]
         when "view_submission"

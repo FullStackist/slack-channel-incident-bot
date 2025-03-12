@@ -4,16 +4,12 @@ class Interaction::RootlyDeclareModalSubmitService
     include SharedServiceLogic
 
     def initialize(incident_params, swi)
-        Rails.logger.info incident_params
         @slack_team = incident_params["team"]["id"]
         @slack_username = incident_params["user"]["username"]
         @slack_userid = incident_params["user"]["id"]
         @interaction_data = incident_params["view"]["state"]["values"]
-        Rails.logger.info @interaction_data
         @incident = nil
         @response_url = incident_params["response_urls"][0]["response_url"]
-        Rails.logger.info "Interaction::RDMS responseurl = #{@response_url}"
-
         @slack_workspace_id = swi
     end
 
@@ -44,7 +40,6 @@ class Interaction::RootlyDeclareModalSubmitService
         if !Incident.exists?(title: title, workspace: @slack_team)
 
             description_data = @interaction_data["incident_description_section"].present? ? @interaction_data["incident_description_section"]["incident_description_input"]["value"] : ""
-            Rails.logger.info "@ISS: #{@interaction_data}"
             severity_data = @interaction_data["incident_severity_section"].present? ? @interaction_data["incident_severity_section"]["incident_severity_select"]["selected_option"]["value"] : ""
 
             @incident = Incident.new(
@@ -67,7 +62,6 @@ class Interaction::RootlyDeclareModalSubmitService
         channel_name = transform_for_slack_channel_name(channel_name)
         channel_object = { name: channel_name }
 
-        Rails.logger.info @slack_workspace_id
 
         bearer_token = retrieve_slack_access_token(@slack_workspace_id)
 
@@ -78,7 +72,6 @@ class Interaction::RootlyDeclareModalSubmitService
         end
 
         response_body = JSON.parse(response.body)
-        Rails.logger.info response
 
         if !response.success?
             message_response(response_body["error"], @response_url, @slack_workspace_id, "Error")

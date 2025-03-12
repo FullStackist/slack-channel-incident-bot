@@ -11,9 +11,7 @@ module SharedServiceLogic
       end
 
     def retrieve_slack_access_token(slack_workspace_id)
-        Rails.logger.info "SWI #{slack_workspace_id}"
         installation = Installation.find_by(slack_workspace_id: slack_workspace_id)
-        Rails.logger.info installation
         access_token = installation.slack_access_token
         access_token
     end
@@ -22,13 +20,15 @@ module SharedServiceLogic
         bearer_token = retrieve_slack_access_token(swi)
         ephermal_message = pretext == "Success" ? pretext : body
 
-        Rails.logger.info "Hook content: #{hook}"
-
-        Faraday.post(hook) do |req|
+        response = Faraday.post(hook) do |req|
             req.headers['Authorization'] = "Bearer #{bearer_token}"
             req.headers['Content-Type'] = "application/json"
             req.body = { "text": ephermal_message }.to_json
         end
+
+        raise "Error: operation failed" unless response.success?
+
+        body
     end
 
     def channel_visible_response(channel_message, hook, swi)

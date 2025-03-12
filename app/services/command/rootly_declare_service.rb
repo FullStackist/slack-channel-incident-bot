@@ -14,16 +14,12 @@ class Command::RootlyDeclareService
         view_object = compose_view_object(incident_modal)
 
         bearer_token = retrieve_slack_access_token(@slack_workspace_id)
-        Rails.logger.info "FROM CMD::RDS #{view_object}"
 
         response = Faraday.post('https://slack.com/api/views.open') do |req|
             req.headers['Authorization'] = "Bearer #{bearer_token}"
             req.headers['Content-Type'] = "application/json; charset=utf-8"
             req.body = view_object.to_json
         end
-
-        Rails.logger.info "Response body: #{response.body}"
-        Rails.logger.info view_object
 
         raise "Could not open modal: please try again" unless response.success?
 
