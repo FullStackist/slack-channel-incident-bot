@@ -81,7 +81,7 @@ class Command::Modal::IncidentModalView
         {
           "block_id": "channel_selection_block",
           "type": "input",
-          "optional": true,
+          "optional": false,
           "label": {
             "type": "plain_text",
             "text": "Channel to send success message to"
