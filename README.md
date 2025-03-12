@@ -1,24 +1,33 @@
-# README
+# Channel-Driven Incident Management
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Manage incidents directly in Slack
 
-Things you may want to cover:
+This service allows you to manage incidents directly within Slack, enabling seamless interaction with incident data right inside your workspace. It integrates with Slack’s API, allowing you to create, track, and resolve incidents in a channel-driven environment.
 
-* Ruby version
+---
 
-* System dependencies
+## Install
 
-* Configuration
+Click here to install in your [Slack Workspace](https://slack.com/oauth/v2/authorize?client_id=8574621697570.8575781185571&scope=commands,channels:manage,groups:write,im:write,mpim:write&user_scope=) to add the app to your Slack workspace.
 
-* Database creation
+---
 
-* Database initialization
+## Basic Usage
 
-* How to run the test suite
+Once the app is installed, you can start managing incidents directly within Slack. Here are the basic steps to get started:
 
-* Services (job queues, cache servers, search engines, etc.)
+1. **Declare an Incident:**
+   - Type `/rootly declare <your-incident-title>` in any Slack channel to begin a new incident.
+    - **A new channel is created with name `<your-incident-title>_incident` (e.g. `/rootly declare Leaky Faucet` creates channel `leakyfaucet_incident`)**
+    - **To join the channel, search for it in the workspace searchbar, find it, click into it and click `join`**
+    - **The created incident is now marked as `open`**
+   
+2. **Resolve an Incident**
+   - Type `/rootly resolve` in your `<your-incident-title>_incident` channel to mark this incident as `resolved`.
+    - **The time it took for the team to resolve the incident will be written to the channel**
+    - **Another incident taken care of!**
 
-* Deployment instructions
-
-* ...
+3. **View all Incidents**
+    - Go [here](https://slack-channel-incident-bot.onrender.com/incidents) to see a pretty display of all Incidents.
+     - **Use the sorting functionality to see how the Incidents compare in terms of their different attributes**
+    
