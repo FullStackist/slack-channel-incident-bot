@@ -2,13 +2,13 @@
 
 ## Manage incidents directly in Slack
 
-This service allows you to manage incidents directly within Slack, enabling seamless interaction with incident data right inside your workspace. It integrates with Slack’s API, allowing you to create, track, and resolve incidents in a channel-driven environment.
+This service allows you to manage incidents directly within Slack, enabling seamless interaction with incident data right inside your workspace. It integrates with Slack’s API, allowing you to `Declare` incidents as they arise and `Resolve` incidents as they're handled.
 
 ---
 
 ## Install
 
-Click here to install in your [Slack Workspace](https://slack.com/oauth/v2/authorize?client_id=8574621697570.8575781185571&scope=commands,channels:manage,groups:write,im:write,mpim:write&user_scope=) to add the app to your Slack workspace.
+Click [here to install in your Slack Workspace](https://slack.com/oauth/v2/authorize?client_id=8574621697570.8575781185571&scope=commands,channels:manage,groups:write,im:write,mpim:write&user_scope=)
 
 ---
 
@@ -30,4 +30,14 @@ Once the app is installed, you can start managing incidents directly within Slac
 3. **View all Incidents**
     - Go [here](https://slack-channel-incident-bot.onrender.com/incidents) to see a pretty display of all Incidents.
      - **Use the sorting functionality to see how the Incidents compare in terms of their different attributes**
-    
+     
+---
+
+## Technical Highlights
+
+- ✅ Builtin OAuth for Slack
+- ✅ Tailwind CSS & View Components
+- ✅ Extensible backend, leaning heavily into the use of services `/services`
+- ✅ Highly-readable code resulting from a DRY, facade-based approach for most services
+
+**🚀 Thank you for your consideration! I look forward to the next steps 🚀**

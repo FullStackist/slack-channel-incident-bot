@@ -36,7 +36,7 @@
         <% @incidents.each do |incident| %>
           <tr class="border-b">
             <td class="px-4 py-2"><%= incident.title %></td>
-            <td class="px-4 py-2"><%= incident.description %></td>
+            <td class="px-4 py-2 break-words whitespace-normal"><%= incident.description %></td>
             <td class="px-4 py-2"><%= incident.severity %></td>
             <td class="px-4 py-2"><%= incident.creator %></td>
             <td class="px-4 py-2"><%= time_ago_in_words(incident.created_at) %> ago</td>
