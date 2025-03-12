@@ -18,14 +18,41 @@
   </div>
 
   <!-- Dynamic Incident Loader -->
+  <!-- Dynamic Incident Loader -->
   <div class="space-y-2">
     <% @incidents.each do |incident| %>
       <div class="p-4 bg-white shadow rounded-md">
-        <h3 class="font-bold text-lg"><%= incident.title %></h3>
-        <p class="text-gray-600"><%= incident.description %></p>
-        <p class="text-gray-400 text-sm"><%= incident.severity %></p>
-        <p class="text-gray-400 text-sm"><%= incident.creator %></p>
-        <p class="text-gray-400 text-sm"><%= time_ago_in_words(incident.created_at) %> ago</p>
+        <div class="flex items-center space-x-4">
+          <!-- Incident Title -->
+          <div class="flex-1">
+            <h3 class="font-bold text-lg text-gray-800">Title:</h3>
+            <p class="text-gray-600"><%= incident.title %></p>
+          </div>
+
+          <!-- Incident Description -->
+          <div class="flex-1">
+            <h3 class="font-bold text-lg text-gray-800">Description:</h3>
+            <p class="text-gray-600"><%= incident.description %></p>
+          </div>
+
+          <!-- Incident Severity -->
+          <div class="flex-1">
+            <h3 class="font-bold text-lg text-gray-800">Severity:</h3>
+            <p class="text-gray-400 text-sm"><%= incident.severity %></p>
+          </div>
+
+          <!-- Incident Creator -->
+          <div class="flex-1">
+            <h3 class="font-bold text-lg text-gray-800">Creator:</h3>
+            <p class="text-gray-400 text-sm"><%= incident.creator %></p>
+          </div>
+
+          <!-- Incident Created At -->
+          <div class="flex-1">
+            <h3 class="font-bold text-lg text-gray-800">Created At:</h3>
+            <p class="text-gray-400 text-sm"><%= time_ago_in_words(incident.created_at) %> ago</p>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>
