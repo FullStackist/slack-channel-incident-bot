@@ -84,7 +84,7 @@ class Command::Modal::IncidentModalView
           "optional": true,
           "label": {
             "type": "plain_text",
-            "text": "Select a channel to post the result on"
+            "text": "Channel to send success message to"
           },
           "element": {
             "type": "conversations_select",
@@ -96,7 +96,8 @@ class Command::Modal::IncidentModalView
             "filter": {
               "include": ["public", "private"] 
             },
-            "response_url_enabled": true
+            "response_url_enabled": true,
+            "default_to_current_conversation": true
           }
         }
     ]
