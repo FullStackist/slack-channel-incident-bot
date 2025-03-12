@@ -1,0 +1,13 @@
+{
+  "name": "slack-channel-incident-bot",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "bun bun.config.js",
+    "dev": "bun dev",
+    "start": "bundle exec rails server"
+  },
+  "dependencies": {
+    "jsbundling-rails": "^1.0.0",
+    "bun": "^1.1.0"
+  }
+}

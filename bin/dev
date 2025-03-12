@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if ! gem list foreman -i --silent; then
+if gem list --no-installed --exact --silent foreman; then
   echo "Installing foreman..."
   gem install foreman
 fi
@@ -8,17 +8,4 @@ fi
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
-# Let the debug gem allow remote connections,
-# but avoid loading until `debugger` is called
-export RUBY_DEBUG_OPEN="true"
-export RUBY_DEBUG_LAZY="true"
-
-# Set SSL environment variables for development
-export SSL_KEY_PATH=./config/ssl/server.key
-export SSL_CERT_PATH=./config/ssl/server.crt
-
-# Start Rails server with SSL enabled
-#bin/rails server -b "ssl://localhost:3000?key=$SSL_KEY_PATH&cert=$SSL_CERT_PATH" 
-
-exec foreman start -f Procfile.dev "$@"
-
+exec foreman start -f Procfile.dev --env /dev/null "$@"
