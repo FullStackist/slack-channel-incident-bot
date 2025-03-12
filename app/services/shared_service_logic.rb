@@ -34,11 +34,15 @@ module SharedServiceLogic
     def channel_visible_response(channel_message, hook, swi)
         bearer_token = retrieve_slack_access_token(swi)
 
-        Faraday.post(hook) do |req|
+        response = Faraday.post(hook) do |req|
             req.headers['Authorization'] = "Bearer #{bearer_token}"
             req.headers['Content-Type'] = "application/json"
             req.body = { "text": channel_message, "response_type": "in_channel" }.to_json
         end
+
+        raise "Error: operation failed" unless response.success?
+
+        channel_message
     end
 
 end
