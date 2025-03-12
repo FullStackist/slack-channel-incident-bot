@@ -1,10 +1,12 @@
+require 'view_component/engine'
 
-class IncidentListComponent << ViewComponent::Base
+class IncidentListComponent < ViewComponent::Base
     def initialize(incidents:)
         @incidents = incidents
     end
 
     def custom_sort(sort_key, sort_direction)
+        Rails.logger.info "from Component logic #{sort_key} #{sort_direction}"
         case sort_key
         when 'title'
             sort_direction == 'asc' ? @incidents.order(title: :asc) : @incidents.order(title: :desc)

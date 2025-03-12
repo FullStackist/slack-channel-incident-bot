@@ -1,7 +1,7 @@
 require 'openssl'
 require 'rack/utils'
 
-class SlackCommandAuthService
+class Auth::SlackCommandAuthService
     def initialize(raw_content, headers)
         @raw_content = raw_content
         @headers = headers
@@ -23,7 +23,7 @@ class SlackCommandAuthService
 
     def beyond_timeout?
         request_time = @headers['X-Slack-Request-Timestamp']
-        time_difference = (Time.current - request_time).abs
+        time_difference = (Time.current - Time.at(request_time.to_i)).to_i.abs
         time_difference > (60 * 5)
     end
 

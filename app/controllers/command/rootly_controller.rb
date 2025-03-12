@@ -7,16 +7,19 @@ module Command
     def handle_command
 
       # Verify request comes from Slack (authentication) and is permitted to do so (authorization)   
-      auth_service = SlackCommandAuthService.new(request.body.read, request.headers)
+      auth_service = Auth::SlackCommandAuthService.new(request.body.read, request.headers)
 
       unless auth_service.verify_request?
         render json: { text: 'Unauthorized request' }, status: :ok
       end
 
-      route_service = RootlyCommandRouteService.new(slack_command_params)
+      route_service = Route::RootlyCommandRouteService.new(slack_command_params, session[:slack_workspace_id])
+
+      ##result = route_service.call
+      ##render json: { text: 'Command successful!'}, status: :ok
       begin
         result = route_service.call
-        render json: { text: 'Command successful!'}, status: :ok # Acknowledgement response
+        render json: { text: "#{result}"}, status: :ok # Acknowledgement response
       rescue => e
         render json: { text: "#{e}" }, status: :ok # Acknowledgement response, enriched with error data
       end
@@ -27,17 +30,19 @@ module Command
       # Acknowledgement response
       head :ok
 
-      auth_service = SlackCommandAuthService.new(request.body.read, request.headers)
+      auth_service = Auth::SlackCommandAuthService.new(request.body.read, request.headers)
 
       unless auth_service.verify_request?
         render json: { text: 'Unauthorized request' }, status: :ok
       end
 
-      route_service = RootlyInteractionRouteService.new(slack_interaction_params)
+      Rails.logger.info "SWI from Rootly Controller handle_interaction #{session[:slack_workspace_id]}"
+      route_service = Route::RootlyInteractionRouteService.new(slack_interaction_params, session[:slack_workspace_id])
       begin
-        route_service.call
+        result = route_service.call
+        #render json: { text: "#{result}"}, status: :ok # Acknowledgement response
       rescue => e
-        render json: { text: "#{e}" }, status: :ok
+        puts e
       end
     end
 
@@ -64,28 +69,17 @@ module Command
     end
   
     def slack_interaction_params
-      params.permit(
-        :type,
-        :team,
-        :view,
-        user: [:id, :username],
-        actions: [
-          :action_id,
-          :block_id,
-          :value,
-          :selected_option
-        ],
-        response_urls: []
-      )
+      #params.require(:payload)
+      JSON.parse(params[:payload])
     end
   
     def set_command_session
-      if slack_command_params.keys.all? { |key| params[key].present? }
-        session[:slack_workspace_id] = slack_command_params[:team_id]
-      elsif slack_interaction_params.keys.all? { |key| params[key].present? }
-        session[:slack_workspace_id] = slack_interaction_params[:team_id]
+      Rails.logger.info params
+      if params["payload"].present?
+        session[:slack_workspace_id] = JSON.parse(params["payload"])["team"]["id"]
+        Rails.logger.info session[:slack_workspace_id]
       else
-        raise 'Invalid parameters passed: please try again'
+        session[:slack_workspace_id] = slack_command_params[:team_id]
       end
     end
 

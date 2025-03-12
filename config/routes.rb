@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :incidents, only: [:index]
+
   get "installations/create", to: "installations#create"
   get "installations/:id/success", to: "installations#success", as: "installation_success"
 

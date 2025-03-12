@@ -1,17 +1,24 @@
+require 'set'
 
-class RootlyCommandRouteService
-    def initialize(command_params)
+class Route::RootlyCommandRouteService
+    ELIGIBLE_COMMANDS = Set.new(['/rootly'])
+
+    def initialize(command_params, swi)
         #@command_content_raw = command_text.strip
         #command_parts = @command_content_raw.split(" ")
 
         @params = command_params
         @command_itself = @params[:command]
 
-        #@command_args = []
-        #if command_parts.length > 1
-        #    @command_args = command_parts.slice(1..-1)
+        raw_text = @params[:text].strip
+        command_args = raw_text.split(" ")
+        @command_name = command_args[0]
+        @command_params = ""
+        if command_args.length > 1
+            @command_params = command_args.slice(1..-1).join(" ")
         end
 
+        @slack_workspace_id = swi
     end
 
     def verify_command
@@ -19,6 +26,8 @@ class RootlyCommandRouteService
         #    raise "Empty command: please provide a non-empty command"
         if @command_itself.empty?
             raise "Main command ommitted: please provide a main command"
+        elsif !ELIGIBLE_COMMANDS.include?(@command_itself)
+            raise "Invalid command: please use a valid command"
         else
             return true
         end
@@ -27,10 +36,10 @@ class RootlyCommandRouteService
     end
 
     def route_and_execute
-        case @command_itself
-        when "/declare"
+        case @command_name
+        when "declare"
             handle_rootly_declare
-        when "/resolve"
+        when "resolve"
             handle_rootly_resolve
         else
             return "Command not found: please provide a known command (e.g. 'declare <title>' or 'resolve')"
@@ -51,12 +60,12 @@ class RootlyCommandRouteService
     private
 
     def handle_rootly_declare
-        service = RootlyDeclareService.new(@params[:trigger_id], @params[:text])
+        service = Command::RootlyDeclareService.new(@params[:trigger_id], @command_params, @slack_workspace_id)
         service.call
     end
 
     def handle_rootly_resolve
-        service = RootlyResolveService.new(@params)
+        service = Command::RootlyResolveService.new(@params, @slack_workspace_id)
         service.call
     end
 end

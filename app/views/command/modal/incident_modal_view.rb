@@ -1,5 +1,5 @@
 
-class Command::Rootly::IncidentModalView
+class Command::Modal::IncidentModalView
     def initialize(incident_title)
       @incident_title = incident_title
     end
@@ -22,56 +22,27 @@ class Command::Rootly::IncidentModalView
     def blocks
       [
         # Section for confirming Incident title
+
+        # Section for selecting a channel to post the result on
         {
-      "type": "section",
-      "block_id": "incident_title_section",
-      "text": {
-        "type": "mrkdwn",
-        "text": "*Confirm the incident title:*"
-      },
-      "accessory": {
-        "type": "plain_text_input",
-        "action_id": "incident_title_input",
-        "placeholder": {
-          "type": "plain_text",
-          "text": "Enter a short title for the incident"
-          }
-        }
-      },
-        # Section for the Incident Description input field
-        {
-          "type": "section",
-          "block_id": "incident_description_section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Describe the incident:*"
+          "block_id": "channel_selection_block",
+          "type": "input",
+          "optional": true,
+          "label": {
+            "type": "plain_text",
+            "text": "Select a channel to post the result on"
           },
-          "accessory": {
-            "type": "plain_text_input",
-            "action_id": "incident_description_input",
-            "multiline": true,
+          "element": {
+            "type": "conversations_select",
+            "action_id": "channel_forwarder",
             "placeholder": {
               "type": "plain_text",
-              "text": "Enter a detailed description of the incident"
-            }
-          }
-        },
-        # Section for the Severity Level dropdown
-        {
-          "type": "section",
-          "block_id": "incident_severity_section",
-          "text": {
-            "type": "mrkdwn",
-            "text": "*Select the severity level:*"
-          },
-          "accessory": {
-            "type": "static_select",
-            "action_id": "incident_severity_select",
-            "placeholder": {
-              "type": "plain_text",
-              "text": "Choose severity"
+              "text": "Choose a channel"
             },
-            "options": severity_options
+            "filter": {
+              "include": ["public", "private"] 
+            },
+            "response_url_enabled": true
           }
         },
         # Section for the Submit Button

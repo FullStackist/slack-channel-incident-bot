@@ -1,35 +1,40 @@
 require 'faraday'
 
-class RootlyDeclareService
+class Command::RootlyDeclareService
     include SharedServiceLogic
 
-    def initialize(trigger_id, title)
+    def initialize(trigger_id, title, swi)
         @slack_trigger_id = trigger_id
         @incident_title = title
+        @slack_workspace_id = swi
     end
 
     def call
-        incident_modal = Command::Rootly::IncidentModalView.new(@incident_title).render
+        incident_modal = Command::Modal::IncidentModalView.new(@incident_title).render
         view_object = compose_view_object(incident_modal)
 
-        bearer_token = retrieve_slack_access_token
+        bearer_token = retrieve_slack_access_token(@slack_workspace_id)
+        Rails.logger.info "FROM CMD::RDS #{view_object}"
 
         response = Faraday.post('https://slack.com/api/views.open') do |req|
-            req.headers['Authorization'] = 'Bearer #{bearer_token}'
-            req.headers['Content-Type'] = "application/json"
+            req.headers['Authorization'] = "Bearer #{bearer_token}"
+            req.headers['Content-Type'] = "application/json; charset=utf-8"
             req.body = view_object.to_json
         end
 
+        Rails.logger.info "Response body: #{response.body}"
+        Rails.logger.info view_object
+
         raise "Could not open modal: please try again" unless response.success?
 
-        response
+        "You have begun the incident-creation process."
     end
 
     private
 
     def compose_view_object(core_modal)
         {
-            "trigger-id": @slack_trigger_id,
+            "trigger_id": @slack_trigger_id,
             "view": core_modal
         }
     end
