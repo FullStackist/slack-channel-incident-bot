@@ -1,5 +1,5 @@
 # Channel-Driven Incident Management
-
+A sample Ruby on Rails project.
 ## Manage incidents directly in Slack
 
 This service allows you to manage incidents directly within Slack, enabling seamless interaction with incident data right inside your workspace. It integrates with Slack’s API, allowing you to `Declare` incidents as they arise and `Resolve` incidents as they're handled.
@@ -39,5 +39,3 @@ Once the app is installed, you can start managing incidents directly within Slac
 - ✅ Tailwind CSS & View Components
 - ✅ Extensible backend, leaning heavily into the use of services `/services`
 - ✅ Highly-readable code resulting from a DRY, facade-based approach for most services
-
-**🚀 Thank you for you considering my application (pun intended)! I look forward to the next steps 🚀**
